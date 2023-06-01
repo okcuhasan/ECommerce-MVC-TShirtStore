@@ -1,0 +1,46 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+*{box-sizing:border-box;}
+body {
+  margin-bottom: 60px;
+
+}
+.ordersList{
+    width:100%;
+    height:100
+}
+.SiparisDetayi {
+    margin:0 auto;
+    border: solid 1px rgba(0,0,0,0.3);
+    margin-bottom: 50px;
+    padding: 15px;
+}
+.SiparisDetayiUstBar {
+    display: flex;
+    width: 70em;
+    border-bottom: solid 1px rgba(0,0,0,0.3);
+    justify-content: space-between;
+}
+.icerikPadding{
+    padding: 5px;
+}
+.UrunListeleme{
+    display: flex;
+    width: 70em;
+    border-bottom: solid 1px rgba(0,0,0,0.3);
+    justify-content: space-between;
+}
+
+

@@ -1,0 +1,86 @@
+﻿@model OzSapkaTShirt.Models.Order
+
+@if(Model == null)
+{
+    <h6>SEPET</h6>
+    <br />
+    <br />
+
+    <p>SEPETİNİZ BOŞ DURUMDADIR</p>
+}
+else
+{
+    <h6>SEPET</h6>
+    <h6>SİPARİŞİN DETAYLARI</h6>
+    
+
+    <div class="siparis">
+        <div>Sipariş Tarihi</div>
+        <div>@Model.OrderDate.ToShortDateString()</div>
+        <div>Sipariş Toplam Fiyatı</div>
+        <div>@Model.TotalPrice.ToString()</div>
+    </div>
+    
+    <h6>Ürünlerin Siparişleri</h6>
+    <a asp-controller="Orders" asp-action="Approve" asp-route-id="@Model.Id">APPROVE</a>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Ürünün Adı</th>
+                <th>Ürünün Resmi</th>
+                <th>Ürünün Adeti</th>
+                <th>Ürünün Fiyatı</th>
+                <th>Ürünün Toplam Fiyatı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var orderProduct in Model.OrderProducts)
+            {
+                <input type="button" style="width:50px; background-color:tomato" value="+" onclick="changeAmount(@orderProduct.ProductId,1,false)" />
+
+                <input type="button" style="width:50px; background-color:tomato" value="-" onclick="changeAmount(@orderProduct.ProductId,-1,false)"/>
+
+                <input type="button" style="width:50px; background-color:tomato" value="X" onclick="deleteOrderProduct(@orderProduct.ProductId)"/>
+
+                
+
+                <tr>
+                    <td>@orderProduct.Product?.Name</td>
+                    <td><img class="card-img" src="data:image/png;base64,@(Convert.ToBase64String(orderProduct.Product?.ThumbNail))" style="width:70px;display:inline-block" /></td>
+                    <td>
+                        <p style="margin:auto; border:3px solid;"></p>
+                        <span>@orderProduct.Quantity</span>
+                    </td>
+                    <td>@orderProduct.Price.ToString()</td>
+                    @{
+                        var urunlerinToplamFiyati = orderProduct.Quantity * orderProduct.Price;
+                    }
+                    <td>@urunlerinToplamFiyati.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    
+    <script>
+
+        function updateProduct(data){
+            
+        }
+
+        function changeAmount(productId,quantity,dlte){
+            $.post("@Url.Action("UpDateBasket","OrderProducts")/" + productId + "?quantity=" + quantity + "&isdelete=" + dlte , updateProduct, "json")
+            location.reload();
+        }
+
+        function deleteOrderProduct(productId){
+            $.post("@Url.Action("RemoveOrderProduct","OrderProducts")/" + productId, updateProduct, "json")
+            location.reload();
+        }
+    </script>
+ 
+
+    
+    
+}
+

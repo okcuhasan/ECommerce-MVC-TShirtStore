@@ -1,0 +1,56 @@
+﻿@model List<Order>
+
+<div class="ordersList">
+
+    <h1>Son Siparişlerim</h1>
+    @foreach (var item in Model)
+    {
+        
+    
+    <div class="SiparisDetayi"> 
+            <div class="SiparisDetayiUstBar"> 
+                <div class="SiparisTarihiUstBar"> 
+                    <h6 class="SiparisTarihi">Sipariş Tarihi</h6>
+                    <p class="SiparisTarihiSonuc">@item.OrderDate</p>
+                </div>
+                <div class="SiparisAdetiUstBar"> 
+                    <h6 class="SiparisAdeti">Sipariş Adeti</h6>
+                    <p class="SiparisAdetiSonuc">@item.OrderProducts.Sum(o=>o.Quantity)</p>
+                </div>
+                <div class="AliciUstBar"> 
+                    <h6 class="Alici">Alıcı</h6>
+                    <p class="AliciSonuc">@item.User.Name</p>
+                </div>
+                <div class="SiparisTutariUstBar"> 
+                    <h6 class="SiparisTutari">Sipariş Tutarı</h6>
+                    <p class="SiparisTutariSonuc">@item.TotalPrice</p>
+                </div>
+            </div>
+            <div class="icerikPadding">
+                @foreach(var orderProduct in item.OrderProducts)
+                {
+                    <div class="UrunListeleme">
+                        <div class="UrunAdı">
+                        <h6 class="urunAdı">Ürün Adı</h6>
+                        <p class="urunIcerık">@orderProduct.Product.Name</p>
+                        </div>
+                        <div class="UrunAdeti">
+                            <h6 class="urunAdeti">Sipariş Adeti</h6>
+                            <p class="urunAdetiIcerik">@orderProduct.Quantity</p>
+                        </div>
+                        <div>
+                            <h6 class="UrunResmi">Ürün Resmi</h6>
+                            @if (orderProduct.Product.DBImage != null)
+                            {
+                                <img src="data:image/png;base64,@Convert.ToBase64String(orderProduct.Product.DBImage)" style="width:50px; height:50px;" />
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            
+        </div>
+    }
+
+</div>
+
